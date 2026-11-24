@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="RED OSINT — ressources publiques de recherche et de cybersécurité, dans le respect de la vie privée.">
+<title>RED OSINT — Public Intelligence</title><link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="#"><span class="mark">R</span><span>RED<span class="red"> OSINT</span><small>OPEN SOURCE INTELLIGENCE</small></span></a>
+  <nav><a href="#tools">Outils</a><a href="#guides">Guides</a><a href="#privacy">Confidentialité</a></nav>
+  <button class="outline" id="accountBtn">Espace membre</button>
+</header>
+<main>
+<section class="hero">
+  <div class="eyebrow"><span class="pulse"></span> PLATEFORME PUBLIQUE · RESPECT DE LA VIE PRIVÉE</div>
+  <h1>INVESTIGATE<br><span class="red">WITH INTEGRITY.</span></h1>
+  <p class="lead">Explore des sources ouvertes, vérifie les informations et développe tes compétences en cybersécurité — sans exposer la vie privée d'autrui.</p>
+  <a class="primary" href="#tools">Explorer les outils <span>↗</span></a>
+  <div class="hero-grid"><div><b>01</b><span>Sources publiques</span></div><div><b>02</b><span>Vérification responsable</span></div><div><b>03</b><span>Privacy first</span></div></div>
+</section>
+<section id="tools" class="section">
+  <div class="section-head"><div><div class="eyebrow">ARSENAL PUBLIC</div><h2>OUTILS <span class="red">OSINT</span></h2></div><p>Des points de départ vers des registres et ressources accessibles légalement.</p></div>
+  <div class="cards">
+    <article class="tool"><div class="icon">⌕</div><h3>Recherche OSINT</h3><p>Rechercher des informations générales et des sources ouvertes sur un sujet non personnel.</p><form id="generalForm"><input id="generalQuery" placeholder="Ex. sécurité des mots de passe" maxlength="100"><button>Rechercher</button></form><small>Ouvre une recherche web générale dans un nouvel onglet.</small></article>
+    <article class="tool"><div class="icon">▦</div><h3>Entreprises</h3><p>Consulter les informations officielles des entreprises françaises.</p><a class="textlink" href="https://annuaire-entreprises.data.gouv.fr/" target="_blank" rel="noopener noreferrer">Annuaire des entreprises ↗</a></article>
+    <article class="tool"><div class="icon">◎</div><h3>Domaines web</h3><p>Consulter les données d'enregistrement disponibles publiquement via RDAP.</p><form id="domainForm"><input id="domainQuery" placeholder="exemple.fr" maxlength="253"><button>Consulter</button></form><small>La requête est envoyée au service RDAP externe choisi.</small></article>
+    <article class="tool"><div class="icon">⌘</div><h3>Adresses IP publiques</h3><p>Consulter les données d'enregistrement réseau (RDAP) d'une IP publique.</p><form id="ipForm"><input id="ipQuery" placeholder="Ex. 1.1.1.1" maxlength="45"><button>Consulter</button></form><small>N'entre aucune adresse privée ou information appartenant à un tiers sans autorisation.</small></article>
+  </div>
+  <div class="notice"><b>Usage responsable :</b> ces outils ne servent pas à identifier, localiser, surveiller ou harceler des particuliers. N'entre aucune donnée personnelle, secrète ou confidentielle.</div>
+</section>
+<section id="guides" class="section guides">
+  <div class="eyebrow">APPRENDRE & PROTÉGER</div><h2>GUIDES <span class="red">CYBER</span></h2>
+  <div class="guide-list">
+    <article><span>01 / HYGIÈNE NUMÉRIQUE</span><h3>Protéger ses comptes</h3><p>Gestionnaire de mots de passe, authentification multifacteur et récupération de compte.</p><a href="https://www.cybermalveillance.gouv.fr/" target="_blank" rel="noopener noreferrer">Voir les conseils officiels ↗</a></article>
+    <article><span>02 / MÉTHODOLOGIE</span><h3>Vérifier une source</h3><p>Identifier l'auteur, la date, le contexte et recouper avec plusieurs sources fiables.</p><a href="https://www.ssi.gouv.fr/" target="_blank" rel="noopener noreferrer">Ressources ANSSI ↗</a></article>
+    <article><span>03 / PROTECTION</span><h3>Réduire son exposition</h3><p>Limiter les informations personnelles partagées et vérifier ses paramètres de confidentialité.</p><a href="https://www.cnil.fr/fr/maitriser-mes-donnees" target="_blank" rel="noopener noreferrer">Conseils CNIL ↗</a></article>
+  </div>
+</section>
+<section id="privacy" class="section privacy">
+  <div class="eyebrow">NOTRE ENGAGEMENT</div><h2>PRIVACY <span class="red">FIRST.</span></h2>
+  <div class="privacy-grid"><div><h3>Pas de fiches sur des particuliers</h3><p>RED OSINT n'est pas un annuaire de personnes. Ne publie jamais d'adresse privée, de téléphone personnel, d'identifiant, de document ou de donnée permettant le harcèlement.</p></div><div><h3>Transparence sur les recherches</h3><p>Les consultations RDAP et les recherches web peuvent transmettre le terme recherché au fournisseur externe. Vérifie sa politique avant utilisation.</p></div><div><h3>Comptes non activés dans cette démo</h3><p>Aucun mot de passe n'est collecté ici. L'authentification doit être ajoutée avec un fournisseur sécurisé avant d'ouvrir les inscriptions.</p></div></div>
+</section>
+</main>
+<footer><a class="brand" href="#"><span class="mark">R</span><span>RED<span class="red"> OSINT</span></span></a><span>Projet communautaire · Utilisation légale et responsable</span><span>© <span id="year"></span> RED OSINT</span></footer>
+<dialog id="accountDialog"><form method="dialog" class="dialog"><button class="close" aria-label="Fermer">×</button><div class="eyebrow">ESPACE MEMBRE</div><h2>Comptes <span class="red">bientôt disponibles</span></h2><p>Cette version est une démonstration statique. Pour protéger les comptes, l'inscription sera activée après configuration d'une authentification hébergée (par exemple Supabase Auth), avec vérification d'e-mail, limitation des tentatives et règles de sécurité.</p><button class="primary">Compris</button></form></dialog>
+<script src="app.js"></script>
+</body></html>
