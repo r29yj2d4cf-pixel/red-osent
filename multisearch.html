@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="RED OSINT Multisearch — recherches dans les sources professionnelles et institutionnelles publiques.">
+<title>RED OSINT — Multisearch</title>
+<style>
+:root{--bg:#08080b;--panel:#111116;--panel2:#0c0c11;--line:#292932;--muted:#a2a2ad;--red:#f33243;--white:#f5f5f7}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 80% 10%,#260b12 0,transparent 32%),var(--bg);color:var(--white);font:15px/1.5 Inter,ui-sans-serif,system-ui,-apple-system,sans-serif}
+header{height:68px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 max(22px,calc((100% - 1120px)/2));background:#0d0d12}
+.brand{display:flex;align-items:center;gap:11px;font-weight:900;letter-spacing:.08em}.mark{background:var(--red);width:30px;height:30px;display:grid;place-items:center;font-size:20px;font-weight:950;border-radius:3px}.brand small{display:block;font-size:9px;color:#999;letter-spacing:.2em}
+.tag{font-size:10px;letter-spacing:.18em;color:#aaa}
+main{max-width:1050px;margin:58px auto;padding:0 22px}.eyebrow{color:var(--red);font-size:10px;font-weight:900;letter-spacing:.2em;text-transform:uppercase}
+h1{font-size:clamp(34px,6vw,62px);line-height:.98;letter-spacing:-.055em;margin:14px 0 18px;font-weight:950}h1 span{color:var(--red)}
+.intro{color:var(--muted);max-width:680px;margin-bottom:32px}
+.panel{background:linear-gradient(145deg,#14141b,#0e0e13);border:1px solid var(--line);border-radius:12px;padding:25px;box-shadow:0 18px 60px #0005}
+.panel h2{margin:0 0 5px;font-size:20px}.sub{color:var(--muted);font-size:13px;margin:0 0 22px}
+.fields{display:grid;grid-template-columns:1fr 1fr;gap:15px}.field label{display:block;font-size:10px;font-weight:850;letter-spacing:.1em;margin-bottom:7px}.field input{width:100%;background:#08080c;border:1px solid #363640;color:white;border-radius:6px;padding:13px;font:inherit;outline:none}.field input:focus{border-color:var(--red);box-shadow:0 0 0 2px #f3324322}
+.note{font-size:11px;color:#aaa;margin:14px 0 20px}
+.actions{display:flex;gap:10px;flex-wrap:wrap}.btn{border:0;border-radius:5px;padding:12px 18px;font-weight:850;cursor:pointer}.primary{background:var(--red);color:white}.primary:hover{background:#ff4b59}.secondary{background:#292930;color:white}
+#results{display:none;margin-top:28px}.result-head{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin:0 0 16px}.result-head h2{margin:0;font-size:24px}.result-head p{margin:4px 0 0;color:var(--muted);font-size:12px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:9px;padding:18px;display:flex;flex-direction:column;min-height:155px}.card .kicker{font-size:9px;color:var(--red);font-weight:900;letter-spacing:.17em;text-transform:uppercase}.card h3{margin:7px 0 5px;font-size:16px}.card p{color:var(--muted);font-size:12px;margin:0 0 16px;flex:1}.card a{color:#ff5865;text-decoration:none;font-weight:800;font-size:12px}.card a:hover{text-decoration:underline}
+.openall{margin-top:16px;display:flex;gap:10px;flex-wrap:wrap}
+footer{max-width:1050px;margin:30px auto 50px;padding:0 22px;color:#777;font-size:11px}
+.hidden{display:none!important}
+@media(max-width:650px){main{margin:36px auto}.fields,.grid{grid-template-columns:1fr}.panel{padding:18px}.result-head{display:block}}
+</style>
+</head>
+<body>
+<header>
+ <div class="brand"><div class="mark">R</div><div>RED OSINT<small>OPEN SOURCE INTELLIGENCE</small></div></div>
+ <div class="tag">MULTISEARCH · BÊTA</div>
+</header>
+<main>
+ <div class="eyebrow">Sources ouvertes · usage responsable</div>
+ <h1>ONE SEARCH.<br><span>MULTIPLE SOURCES.</span></h1>
+ <p class="intro">Lance en une seule fois plusieurs recherches ciblées dans des moteurs et registres publics. Les résultats s'ouvrent chez les sources : RED OSINT ne collecte ni ne stocke de dossiers personnels.</p>
+
+ <section class="panel" id="searchPanel">
+  <h2>Recherche professionnelle</h2>
+  <p class="sub">Recherche une activité, une entreprise ou une présence professionnelle publiée publiquement.</p>
+  <form id="searchForm">
+   <div class="fields">
+    <div class="field"><label for="first">PRÉNOM (FACULTATIF)</label><input id="first" autocomplete="given-name" placeholder="Ex. Alex"></div>
+    <div class="field"><label for="last">NOM / ENTREPRISE</label><input id="last" autocomplete="family-name" placeholder="Nom ou raison sociale" required></div>
+    <div class="field"><label for="region">PAYS OU RÉGION</label><input id="region" placeholder="Ex. France"></div>
+    <div class="field"><label for="activity">SECTEUR / MOT-CLÉ (FACULTATIF)</label><input id="activity" placeholder="Ex. informatique, association"></div>
+   </div>
+   <p class="note">N'ajoute pas de date de naissance, adresse personnelle, téléphone privé ou autre donnée sensible. Les recherches sont limitées aux informations professionnelles et institutionnelles publiques.</p>
+   <div class="actions"><button class="btn primary" type="submit">RECHERCHER ↗</button><button class="btn secondary" type="reset">EFFACER</button></div>
+  </form>
+ </section>
+
+ <section id="results" aria-live="polite">
+  <div class="result-head"><div><div class="eyebrow">Tableau de recherche</div><h2>Sources à consulter</h2><p id="summary"></p></div><button class="btn secondary" id="backBtn" type="button">← Modifier</button></div>
+  <div class="grid" id="cards"></div>
+  <div class="openall"><button class="btn primary" id="openAll" type="button">OUVRIR TOUTES LES RECHERCHES ↗</button></div>
+  <p class="note">Chaque lien ouvre une recherche externe. Les résultats doivent être vérifiés sur leur site d'origine : une correspondance de nom ne prouve pas une identité.</p>
+ </section>
+</main>
+<footer>RED OSINT · Outil de recherche de sources publiques professionnelles · Aucun résultat n'est aspiré ou conservé par cette page.</footer>
+<script>
+(() => {
+ const form=document.getElementById('searchForm'), panel=document.getElementById('searchPanel');
+ const results=document.getElementById('results'), cards=document.getElementById('cards');
+ let urls=[];
+ const enc=s=>encodeURIComponent(s.trim());
+ function makeUrl(base,q){return base+enc(q)}
+ form.addEventListener('submit',e=>{
+  e.preventDefault();
+  const first=document.getElementById('first').value.trim();
+  const last=document.getElementById('last').value.trim();
+  const region=document.getElementById('region').value.trim();
+  const activity=document.getElementById('activity').value.trim();
+  if(!last){return}
+  const subject=[first,last].filter(Boolean).join(' ');
+  const context=[region,activity].filter(Boolean).join(' ');
+  const q=[subject,context].filter(Boolean).join(' ');
+  const professional=q+' (professionnel OR entreprise OR organisation)';
+  const entries=[
+   ['MOTEUR WEB','Recherche professionnelle générale','Pages publiques et mentions professionnelles publiées sur le web.',makeUrl('https://www.google.com/search?q=',professional)],
+   ['MOTEUR WEB','Recherche alternative','Comparer les résultats d’un autre moteur de recherche.',makeUrl('https://www.bing.com/search?q=',professional)],
+   ['ENTREPRISES · FRANCE','Annuaire des entreprises','Rechercher une entreprise ou un établissement dans les données publiques françaises.',makeUrl('https://annuaire-entreprises.data.gouv.fr/rechercher?terme=',last)],
+   ['ANNONCES OFFICIELLES','BODACC','Consulter les annonces légales publiques concernant une entreprise.',makeUrl('https://www.google.com/search?q=site%3Abodacc.fr+',last)],
+   ['INSTITUTIONS','Sites publics','Rechercher des mentions dans les sites institutionnels français.',makeUrl('https://www.google.com/search?q=site%3Agouv.fr+',professional)],
+   ['PROFESSIONNEL','Pages professionnelles publiques','Repérer les pages professionnelles publiques, sans rechercher de profils privés.',makeUrl('https://www.google.com/search?q=site%3Alinkedin.com%2Fin+',professional)]
+  ];
+  urls=entries.map(x=>x[3]);cards.innerHTML='';
+  entries.forEach(([type,title,desc,url])=>{
+   const article=document.createElement('article');article.className='card';
+   const k=document.createElement('div');k.className='kicker';k.textContent=type;
+   const h=document.createElement('h3');h.textContent=title;
+   const p=document.createElement('p');p.textContent=desc;
+   const a=document.createElement('a');a.href=url;a.target='_blank';a.rel='noopener noreferrer';a.textContent='Ouvrir la recherche ↗';
+   article.append(k,h,p,a);cards.append(article);
+  });
+  document.getElementById('summary').textContent='Requête : '+q+' · '+entries.length+' sources disponibles';
+  panel.classList.add('hidden');results.style.display='block';history.replaceState(null,'','#resultats');
+  results.scrollIntoView({behavior:'smooth'});
+ });
+ document.getElementById('backBtn').addEventListener('click',()=>{results.style.display='none';panel.classList.remove('hidden');history.replaceState(null,'',location.pathname);panel.scrollIntoView({behavior:'smooth'});});
+ document.getElementById('openAll').addEventListener('click',()=>{urls.forEach((u,i)=>setTimeout(()=>window.open(u,'_blank','noopener'),i*250));});
+ form.addEventListener('reset',()=>{setTimeout(()=>{results.style.display='none';panel.classList.remove('hidden');urls=[];},0)});
+})();
+</script>
+</body>
+</html>

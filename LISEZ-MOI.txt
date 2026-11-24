@@ -1,24 +1,16 @@
-RED OSINT — Module Recherche par identité
-===========================================
+RED OSINT — MULTISEARCH
 
-Fichier : recherche-identite.html
-
-Installation simple
--------------------
-1. Ouvre ton dépôt GitHub `red-osent`.
+Installation :
+1. Ouvre ton dépôt GitHub red-osent.
 2. Clique sur Add file > Upload files.
-3. Glisse `recherche-identite.html` à la racine du dépôt.
+3. Dépose multisearch.html à la racine du dépôt.
 4. Clique sur Commit changes.
-5. Après le déploiement GitHub Pages, ouvre :
-   https://r29yj2d4cf-pixel.github.io/red-osent/recherche-identite.html
 
-Important
----------
-Ce module est autonome : il ne remplace aucun fichier existant.
-Il prépare des recherches portant sur des informations professionnelles
-ou institutionnelles publiques. La date de naissance saisie reste locale
-dans le formulaire et n'est jamais incluse dans les recherches externes.
+Après publication, le module sera disponible à :
+https://r29yj2d4cf-pixel.github.io/red-osent/multisearch.html
 
-Pour l'ajouter au menu de la page principale, il faudra ensuite modifier
-le lien de navigation dans `index.html` pour pointer vers :
-`recherche-identite.html`
+Pour ajouter un lien depuis la page d'accueil, ajoute un lien vers :
+multisearch.html
+
+Ce module lance des recherches externes sur des sources professionnelles et institutionnelles publiques.
+Il ne collecte pas automatiquement les résultats et ne recherche pas de données privées.
