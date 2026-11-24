@@ -1,43 +1,29 @@
-# RED OSINT
+# RED OSINT — moteur de recherche public
 
-Prototype de site public OSINT en HTML/CSS/JavaScript, sans framework et sans coût d'hébergement obligatoire.
+## Ce que fait cette version
+- Recherche web générale : ouvre une recherche externe (Google).
+- Entreprises françaises : interroge l'API ouverte Recherche d'entreprises de la DINUM.
+- Domaines et IP publiques : interroge RDAP via rdap.org.
+- Affichage filtré : les objets de contact RDAP ne sont jamais affichés; les résultats d'entreprises n'affichent pas les dirigeants ni les adresses détaillées.
+- Aucun compte, cookie, historique ou stockage local dans cette version.
 
-## Lancer en local
-Ouvrir `index.html` dans un navigateur, ou lancer un serveur local :
-```bash
-python -m http.server 8000
-```
-Puis ouvrir `http://localhost:8000`.
+## Mise à jour sur GitHub
+Dans le dépôt `red-osent` :
+1. Code → Add file → Upload files.
+2. Glisser les trois fichiers `index.html`, `styles.css`, `app.js` de ce dossier à la racine.
+3. Accepter le remplacement des fichiers existants si GitHub le demande.
+4. Cliquer `Commit changes`.
+5. GitHub Pages redéploie automatiquement le site après quelques minutes.
 
-## Publier gratuitement
-- GitHub Pages : créer un dépôt, ajouter les fichiers et activer Pages dans Settings.
-- Cloudflare Pages : importer le dépôt GitHub et choisir un déploiement statique.
-Aucune étape de build n'est nécessaire.
+## Limites importantes
+Ce MVP interroge des sources externes à la demande; ce n'est pas un crawler ni un index web propriétaire. Les recherches web sont transmises au moteur externe. Les requêtes entreprises sont transmises à l'API publique de la DINUM; les requêtes domaine/IP sont transmises à rdap.org. Ne jamais saisir de données personnelles ou confidentielles. Les données publiques peuvent être incomplètes, masquées ou anciennes.
 
-## Fonctionnalités
-- Recherche web générale sur un sujet non personnel.
-- Annuaire officiel des entreprises françaises.
-- Consultation RDAP de domaines et IP publiques via rdap.org.
-- Guides vers les ressources officielles ANSSI, Cybermalveillance.gouv.fr et CNIL.
-- Espace membre informatif : l'authentification n'est volontairement pas simulée.
+L'API Recherche d'entreprises est ouverte, avec des limites d'appels. Respecter les quotas et ne pas automatiser de collecte massive.
+Sources :
+- https://recherche-entreprises.api.gouv.fr/docs/
+- https://rdap.org/
+- https://annuaire-entreprises.data.gouv.fr/
 
-## Confidentialité et limites
-- Le site ne stocke pas les recherches et n'utilise pas de cookies ou d'analytics.
-- Les recherches RDAP et les recherches web ouvrent un service tiers : le terme recherché lui est transmis. Ne jamais y saisir de donnée personnelle, secrète ou confidentielle.
-- Ce prototype ne constitue pas un service d'enquête ni un moteur de personnes.
-- Les validations côté navigateur sont une aide ergonomique, pas une barrière de sécurité.
-- Les données d'enregistrement de domaines/IP peuvent être incomplètes, masquées ou inexactes. Vérifier les informations auprès des registres officiels.
 
-## Comptes utilisateurs — avant mise en production
-Ne jamais enregistrer des mots de passe dans `localStorage`, dans un fichier JSON ou directement dans le navigateur.
-Pour activer les comptes :
-1. Utiliser un fournisseur d'authentification hébergé (ex. Supabase Auth ou équivalent).
-2. Activer la vérification d'adresse e-mail et la récupération sécurisée.
-3. Activer la protection anti-abus et limiter les tentatives.
-4. Configurer des règles d'accès côté serveur (RLS), jamais uniquement côté interface.
-5. Collecter le minimum de données, définir une durée de conservation et publier une politique de confidentialité.
-6. Prévoir une procédure de suppression de compte et de traitement des demandes RGPD.
-7. Faire relire le traitement des données et les mentions légales avant ouverture au public.
-
-## Règles de modération recommandées
-Interdire les adresses privées, téléphones personnels, identifiants, données de connexion, documents d'identité, données de localisation personnelle, données fuitées et contenus visant à intimider ou harceler. Prévoir signalement, examen humain et retrait rapide.
+## Vérification locale de ses propres informations
+Le mode « Vérifier mes propres informations » affiche des conseils de protection. Le nom, le prénom et la date de naissance ne sont envoyés à aucun service externe et ne sont pas sauvegardés. Ce mode ne permet pas de rechercher ou profiler une autre personne.
