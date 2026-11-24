@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RED OSINT — Recherche professionnelle publique</title>
+<style>
+:root{--bg:#09090c;--panel:#111116;--line:#292930;--text:#f4f4f5;--muted:#a1a1aa;--red:#ef3340}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:15px/1.55 Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+header{border-bottom:1px solid var(--line);background:#0d0d12}
+nav{max-width:1080px;margin:auto;padding:18px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.brand{display:flex;align-items:center;gap:11px;font-weight:850;letter-spacing:.08em}
+.logo{display:grid;place-items:center;width:34px;height:34px;background:var(--red);font-weight:900;font-size:21px}
+.brand small{display:block;color:var(--muted);font-size:9px;letter-spacing:.22em}
+main{max-width:920px;margin:56px auto;padding:0 22px}
+.eyebrow{color:var(--red);font-size:11px;font-weight:800;letter-spacing:.2em;text-transform:uppercase}
+h1{font-size:clamp(30px,6vw,52px);line-height:1.04;letter-spacing:-.045em;margin:12px 0}
+h1 span{color:var(--red)}
+.intro{color:var(--muted);max-width:700px;margin-bottom:32px}
+.panel{background:var(--panel);border:1px solid var(--line);padding:26px;border-radius:9px}
+.panel h2{font-size:22px;margin:0 0 7px}
+.help{color:var(--muted);font-size:13px;margin:0 0 22px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.field{display:flex;flex-direction:column;gap:7px}
+.field.full{grid-column:1/-1}
+label{font-size:12px;font-weight:750;letter-spacing:.04em}
+input{width:100%;background:#09090d;color:var(--text);border:1px solid #393941;border-radius:5px;padding:13px 12px;font:inherit;outline:none}
+input:focus{border-color:var(--red);box-shadow:0 0 0 2px #ef334022}
+button{border:0;border-radius:5px;background:var(--red);color:white;padding:13px 18px;font-weight:800;cursor:pointer}
+button:hover{filter:brightness(1.08)}
+.actions{display:flex;gap:10px;align-items:center;margin-top:20px;flex-wrap:wrap}
+.secondary{background:#26262d}
+.note{font-size:12px;color:var(--muted);margin-top:17px}
+.results{display:none;margin-top:22px}
+.results h3{font-size:17px;margin:0 0 12px}
+.result-list{display:grid;gap:10px}
+.result{border:1px solid var(--line);padding:14px;border-radius:6px;background:#0c0c11}
+.result strong{display:block;margin-bottom:4px}
+.result p{margin:0 0 9px;color:var(--muted);font-size:13px}
+a{color:#ff6973;text-decoration:none}a:hover{text-decoration:underline}
+.warning{border-left:3px solid var(--red);padding:12px 14px;background:#171116;color:#d4d4d8;font-size:12px;margin-top:22px}
+footer{max-width:920px;margin:36px auto 60px;padding:0 22px;color:#777780;font-size:12px}
+@media(max-width:620px){main{margin:34px auto}.panel{padding:18px}.grid{grid-template-columns:1fr}.field.full{grid-column:auto}.actions button{width:100%}nav{padding:14px 18px}}
+</style>
+</head>
+<body>
+<header><nav>
+  <div class="brand"><span class="logo">R</span><span>RED OSINT<small>OPEN SOURCE INTELLIGENCE</small></span></div>
+  <span style="font-size:11px;color:#a1a1aa;letter-spacing:.12em">MODULE BÊTA</span>
+</nav></header>
+<main>
+  <div class="eyebrow">Sources ouvertes · Usage responsable</div>
+  <h1>RECHERCHE <span>PROFESSIONNELLE</span></h1>
+  <p class="intro">Repère des informations professionnelles ou institutionnelles publiées volontairement et accessibles au public. Ce module ne recherche pas les coordonnées privées d'une personne.</p>
+  <section class="panel">
+    <h2>Recherche par identité</h2>
+    <p class="help">Saisis un nom pour ouvrir des recherches ciblées vers des sources publiques professionnelles.</p>
+    <form id="searchForm">
+      <div class="grid">
+        <div class="field"><label for="firstName">PRÉNOM</label><input id="firstName" maxlength="80" autocomplete="given-name" placeholder="Ex. Camille" required></div>
+        <div class="field"><label for="lastName">NOM</label><input id="lastName" maxlength="80" autocomplete="family-name" placeholder="Ex. Martin" required></div>
+        <div class="field"><label for="birthDate">DATE DE NAISSANCE (FACULTATIVE)</label><input id="birthDate" type="date" aria-describedby="dateNote"></div>
+        <div class="field"><label for="region">PAYS OU RÉGION (FACULTATIF)</label><input id="region" maxlength="80" placeholder="Ex. France"></div>
+      </div>
+      <p class="note" id="dateNote">La date de naissance reste uniquement dans ce formulaire : elle n'est jamais ajoutée aux recherches ni transmise aux sites externes. Utilise-la seulement pour distinguer des homonymes dans tes propres notes.</p>
+      <div class="actions"><button type="submit">Préparer les recherches publiques</button><button type="reset" class="secondary">Effacer</button></div>
+    </form>
+    <div class="results" id="results" aria-live="polite">
+      <h3>Recherches à ouvrir</h3>
+      <div class="result-list" id="resultList"></div>
+    </div>
+    <div class="warning"><strong>Respecte la vie privée.</strong> N'utilise pas ces recherches pour harceler, surveiller, usurper l'identité de quelqu'un ou obtenir des données personnelles non publiques. Vérifie chaque résultat à partir de sa source d'origine.</div>
+  </section>
+</main>
+<footer>RED OSINT · Module autonome. Les recherches s'ouvrent sur des services tiers ; RED OSINT ne collecte ni n'enregistre les champs saisis.</footer>
+<script>
+const form=document.getElementById('searchForm');
+const results=document.getElementById('results');
+const list=document.getElementById('resultList');
+form.addEventListener('submit',function(event){
+  event.preventDefault();
+  const first=document.getElementById('firstName').value.trim();
+  const last=document.getElementById('lastName').value.trim();
+  const region=document.getElementById('region').value.trim();
+  if(!first||!last)return;
+  // La date de naissance est volontairement exclue de toute requête externe.
+  const identity=`"${first} ${last}"`;
+  const suffix=region?` "${region}"`:'';
+  const searches=[
+    {title:"Registre national des entreprises (France)",desc:"Vérifier une fonction ou une entreprise déclarée dans les données officielles.",q:`${identity}${suffix} site:annuaire-entreprises.data.gouv.fr`},
+    {title:"BODACC — annonces officielles",desc:"Consulter les annonces légales liées à une activité ou une entreprise.",q:`${identity}${suffix} site:bodacc.fr`},
+    {title:"Recherche professionnelle générale",desc:"Repérer des pages professionnelles publiées publiquement et vérifier leur contexte.",q:`${identity}${suffix} (profession OR entreprise OR association)`},
+    {title:"Recherche sur les sites institutionnels",desc:"Rechercher une éventuelle mention sur des sites publics ou institutionnels.",q:`${identity}${suffix} site:gouv.fr`}
+  ];
+  list.replaceChildren();
+  for(const item of searches){
+    const card=document.createElement('div');card.className='result';
+    const title=document.createElement('strong');title.textContent=item.title;
+    const desc=document.createElement('p');desc.textContent=item.desc;
+    const link=document.createElement('a');link.href='https://www.google.com/search?q='+encodeURIComponent(item.q);link.target='_blank';link.rel='noopener noreferrer';link.textContent='Ouvrir la recherche ↗';
+    card.append(title,desc,link);list.append(card);
+  }
+  results.style.display='block';
+  results.scrollIntoView({behavior:'smooth',block:'nearest'});
+});
+form.addEventListener('reset',()=>{results.style.display='none';list.replaceChildren();});
+</script>
+</body>
+</html>
